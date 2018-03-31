@@ -1,0 +1,30 @@
+{
+    "name": "cliz",
+    "version": "0.0.8",
+    "license": "MIT",
+    "author": {
+        "name": "Francesco Bianco",
+        "email": "bianco@javanile.org"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/javanile/cliz.git"
+    },
+    "main": "index.js",
+    "scripts": {
+        "test": "mocha --reporter spec --recursive | sed '/^\\s*$/d'",
+        "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --recursive"
+    },
+    "dependencies": {
+        "colors": "^1.1.2",
+        "sudo": "^1.0.3",
+        "username": "^3.0.0",
+        "wordwrap": "^1.0.0",
+        "yamljs": "^0.3.0"
+    },
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "chai-fs": "^1.0.0",
+        "mocha": "^3.2.0"
+    }
+}
