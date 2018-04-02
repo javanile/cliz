@@ -1,6 +1,6 @@
 {
     "name": "cliz",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "license": "MIT",
     "author": {
         "name": "Francesco Bianco",
@@ -16,11 +16,11 @@
         "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --recursive"
     },
     "dependencies": {
-        "colors": "^1.1.2",
+        "colors": "^1.2.1",
+        "js-yaml": "^3.10.0",
         "sudo": "^1.0.3",
         "username": "^3.0.0",
-        "wordwrap": "^1.0.0",
-        "yamljs": "^0.3.0"
+        "wordwrap": "^1.0.0"
     },
     "devDependencies": {
         "chai": "^3.5.0",
