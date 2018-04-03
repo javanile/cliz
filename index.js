@@ -11,6 +11,8 @@ const fs = require('fs')
     , colors = require('colors')
     , spawn = require('child_process').spawn
     , exec = require('child_process').execSync
+    , yaml = require('js-yaml')
+    , merge = require('deepmerge')
 
 module.exports = {
 
@@ -20,7 +22,7 @@ module.exports = {
     errorTag: '<<error>>',
 
     /**
-     * Perform 'docker-compose up' base command.
+     * Get option value from command-line argument.
      *
      * @param args
      */
@@ -71,6 +73,18 @@ module.exports = {
     },
 
     /**
+     *
+     * @param file
+     * @param schema
+     */
+    config: function(file, schema) {
+        var code = fs.readFileSync(file).toString()
+        var data = yaml.safeLoad(code)
+
+        return merge(schema, data)
+    },
+
+    /**
      * Check if argument contains value.
      *
      * @param args
@@ -110,6 +124,17 @@ module.exports = {
     },
 
     /**
+     *
+     *
+     */
+    version: function (path, cb) {
+        var info = JSON.parse(fs.readFileSync(path), "utf8");
+        var version = info.name + "@" + info.version
+
+        return this.write(version, cb);
+    },
+
+    /**
      * Print console error.
      *
      * @param error
@@ -117,9 +142,9 @@ module.exports = {
      * @returns {*}
      */
     error: function (error, cb) {
-        this.write(colors.red.bold(this.errorTag) + ' ' + colors.white(error))
+        if (this.isFunction(cb)) { cb(error) }
 
-        return cb(error)
+        return this.write(colors.red.bold(this.errorTag) + ' ' + colors.white(error))
     },
 
     /**
@@ -130,5 +155,15 @@ module.exports = {
      */
     isFunction: function(f) {
         return typeof f === 'function'
+    },
+
+    /**
+     * Check if file exists.
+     *
+     * @param file
+     * @returns {*}
+     */
+    fileExists: function(file) {
+        return file && fs.existsSync(file) && fs.lstatSync(file).isFile();
     }
 }
