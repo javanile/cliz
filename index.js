@@ -5,7 +5,7 @@
  * MIT Licensed
  */
 
-const fs = require('fs')
+const fu = require('nodejs-fu')
     , join = require('path').join
     , basename = require('path').basename
     , colors = require('colors')
@@ -78,7 +78,7 @@ module.exports = {
      * @param schema
      */
     config: function(file, schema) {
-        var code = fs.readFileSync(file).toString()
+        var code = fu.readFile(file)
         var data = yaml.safeLoad(code)
 
         return merge(schema, data)
@@ -118,9 +118,9 @@ module.exports = {
         var cmd = this.command(args, 'help')
         var file = join(path, cmd + '.txt')
 
-        if (!fs.existsSync(file)) { file = join(path, 'help.txt') }
+        if (!fu.fileExists(file)) { file = join(path, 'help.txt') }
 
-        return this.write(fs.readFileSync(file).toString(), cb)
+        return this.write(fu.readFile(file), cb)
     },
 
     /**
@@ -128,7 +128,7 @@ module.exports = {
      *
      */
     version: function (path, cb) {
-        var info = JSON.parse(fs.readFileSync(path), "utf8");
+        var info = JSON.parse(fu.readFile(path), "utf8");
         var version = info.name + "@" + info.version
 
         return this.write(version, cb);
@@ -155,15 +155,5 @@ module.exports = {
      */
     isFunction: function(f) {
         return typeof f === 'function'
-    },
-
-    /**
-     * Check if file exists.
-     *
-     * @param file
-     * @returns {*}
-     */
-    fileExists: function(file) {
-        return file && fs.existsSync(file) && fs.lstatSync(file).isFile();
     }
 }
