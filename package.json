@@ -18,6 +18,7 @@
     "dependencies": {
         "colors": "^1.2.1",
         "deepmerge": "^2.1.0",
+        "dotenv": "^5.0.1",
         "js-yaml": "^3.11.0",
         "sudo": "^1.0.3",
         "username": "^3.0.0",

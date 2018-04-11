@@ -14,6 +14,8 @@ const fu = require('nodejs-fu')
     , yaml = require('js-yaml')
     , merge = require('deepmerge')
 
+require('dotenv').config({path: '.env'})
+
 module.exports = {
 
     /**
@@ -78,7 +80,7 @@ module.exports = {
      * @param schema
      */
     config: function(file, schema) {
-        var code = fu.readFile(file)
+        var code = this.parseVariables(fu.readFile(file))
         var data = yaml.safeLoad(code)
 
         return merge(schema, data)
@@ -155,5 +157,14 @@ module.exports = {
      */
     isFunction: function(f) {
         return typeof f === 'function'
+    },
+
+    /**
+     *
+     */
+    parseVariables: function (code) {
+        return code.replace(/\$\{([A-Z_]+)\}/gm, function (token, variable) {
+            return process.env[variable] || ''
+        });
     }
 }
