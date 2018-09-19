@@ -21,7 +21,17 @@ module.exports = {
     /**
      *
      */
+    debugTag: '<<debug>>',
+
+    /**
+     *
+     */
     errorTag: '<<error>>',
+
+    /**
+     *
+     */
+    fatalTag: '<<fatal>>',
 
     /**
      * Get option value from command-line argument.
@@ -145,8 +155,32 @@ module.exports = {
      */
     error: function (error, cb) {
         if (this.isFunction(cb)) { cb(error) }
+        return this.write(colors.red.bold(this.errorTag) + ' ' + error)
+    },
 
-        return this.write(colors.red.bold(this.errorTag) + ' ' + colors.white(error))
+    /**
+     * Print console error and exit.
+     *
+     * @param error
+     * @param cb
+     * @returns {*}
+     */
+    fatal: function (error, cb) {
+        if (this.isFunction(cb)) { cb(error) }
+        this.write(colors.red.bold(this.fatalTag) + ' ' + error)
+        process.exit(1)
+    },
+
+    /**
+     * Print console error and exit.
+     *
+     * @param error
+     * @param cb
+     * @returns {*}
+     */
+    debug: function (error, cb) {
+        if (this.isFunction(cb)) { cb(error) }
+        this.write(colors.yellow.bold(this.debugTag) + ' ' + error)
     },
 
     /**
