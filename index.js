@@ -93,7 +93,25 @@ module.exports = {
         var code = this.parseVariables(fu.readFile(file))
         var data = yaml.safeLoad(code)
 
-        return merge(schema, data)
+        return merge(schema || {}, data)
+    },
+
+    /**
+     *
+     * @param file
+     * @param schema
+     */
+    configRaw: function(file, schema) {
+        return merge(schema || {}, yaml.safeLoad(fu.readFile(file)))
+    },
+
+    /**
+     *
+     * @param file
+     * @param schema
+     */
+    configSave: function(file, config) {
+        return fu.writeFile(file, yaml.safeDump(config))
     },
 
     /**
