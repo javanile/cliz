@@ -183,10 +183,10 @@ module.exports = {
      * @param cb
      * @returns {*}
      */
-    fatal: function (error, cb) {
+    fatal: function (error, exitCode, cb) {
         if (this.isFunction(cb)) { cb(error) }
         this.write(colors.red.bold(this.fatalTag) + ' ' + error)
-        process.exit(1)
+        process.exit(exitCode || 0)
     },
 
     /**
